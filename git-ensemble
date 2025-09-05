@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -e
 
+if [ "$1" = "completions" ] && [ "$2" = "fish" ]; then
+  # print fish completions using the path of this file
+  cat "$(dirname "$0")/completions.fish"
+  exit 0
+fi
+
 if [ "$1" != "with" ]; then
   echo "Only 'with' is supported as the first argument."
   exit 1
