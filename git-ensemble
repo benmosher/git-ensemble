@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+set -e
+
+if [ "$1" != "with" ]; then
+  echo "Only 'with' is supported as the first argument."
+  exit 1
+fi
+
+# remove first argument
+shift
+
+if [ "$#" -lt 1 ]; then
+  echo "Usage: git ensemble of <branch1> <branch2> ..."
+  exit 1
+fi
+
+# check for uncommitted changes
+if [ -n "$(git status --porcelain)" ]; then
+  echo "You have uncommitted changes. Please commit or stash them."
+  exit 1
+fi
+
+# capture current branch
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# switch to detached HEAD state
+git checkout --detach HEAD
+
+# octopus merge with passed branches
+git merge --no-ff -m "Ensemble commit of: $current_branch $*" "$@"
