@@ -10,7 +10,7 @@ fi
 shift
 
 if [ "$#" -lt 1 ]; then
-  echo "Usage: git ensemble of <branch1> <branch2> ..."
+  echo "Please provide at least one branch or ref to merge with."
   exit 1
 fi
 
